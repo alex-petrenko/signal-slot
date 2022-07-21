@@ -1,5 +1,6 @@
 # signal-slot
 
+[![tests](https://github.com/alex-petrenko/signal-slot/actions/workflows/test-ci.yml/badge.svg)](https://github.com/alex-petrenko/signal-slot/actions/workflows/test-ci.yml)
 [![Downloads](https://pepy.tech/badge/signal-slot-mp)](https://pepy.tech/project/signal-slot-mp)
 [<img src="https://img.shields.io/discord/987232982798598164?label=discord">](https://discord.gg/BCfHWaSMkr)
 
