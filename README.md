@@ -8,6 +8,9 @@ Qt-like event loops, signals and slots for communication across threads and proc
 
 ### Recent releases
 
+##### v1.0.1
+* Added signal_slot.configure_logger() function to configure a custom logger
+
 ##### v1.0.0
 * First PyPI version
 

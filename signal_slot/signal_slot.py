@@ -15,6 +15,11 @@ from signal_slot.queue_utils import get_queue
 log = logging.getLogger(__name__)
 
 
+def configure_logger(logger):
+    global log
+    log = logger
+
+
 # type aliases for clarity
 ObjectID = Any  # ObjectID can be any hashable type, usually a string
 MpQueue = Any  # can actually be any multiprocessing Queue type, i.e. faster_fifo queue
@@ -195,12 +200,16 @@ class EventLoopObject:
         self.emit_many(signal_, (args,))
 
     def emit_many(self, signal_: str, list_of_args: Iterable[Tuple]):
-        # this is mostly for debugging
+        # enable for for debugging
         # pid = process_pid(self.event_loop.process)
         # if os.getpid() != pid:
         #     raise RuntimeError(
         #         f'Cannot emit {signal_}: object {self.object_id} lives on a different process {pid}!'
         #     )
+
+        # this is too verbose for most situations
+        # if self.event_loop.verbose:
+        #     log.debug(f"Emit {self.object_id}:{signal_=} {list_of_args=}")
 
         signals_to_emit = tuple((self.object_id, signal_, args) for args in list_of_args)
 
