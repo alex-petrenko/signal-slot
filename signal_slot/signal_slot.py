@@ -268,23 +268,20 @@ class EventLoop(EventLoopObject):
         # connect to our own termination signal
         self._internal_terminate.connect(self._terminate)
 
-    """Emitted right before the start of the loop."""
-
     @signal
     def start(self):
-        pass
-
-    """Emitted upon loop termination."""
+        """Emitted right before the start of the loop."""
+        ...
 
     @signal
     def terminate(self):
-        pass
-
-    """Internal signal: do not connect to this."""
+        """Emitted upon loop termination."""
+        ...
 
     @signal
     def _internal_terminate(self):
-        pass
+        """Internal signal: do not connect to this."""
+        ...
 
     def add_timer(self, t: Timer):
         self.timers.append(t)
