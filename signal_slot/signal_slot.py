@@ -349,7 +349,7 @@ class EventLoop(EventLoopObject):
             try:
                 slot_callable(*args)
             except Exception as exc:
-                log.exception(f"{self} unhandled exception in {slot=} connected to {emitter=}")
+                log.exception(f"{self} unhandled exception in {slot=} connected to {emitter=}, {args=}")
                 raise exc
 
     def _calculate_timeout(self) -> Timer:
