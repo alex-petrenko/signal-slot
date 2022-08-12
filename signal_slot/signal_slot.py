@@ -7,7 +7,7 @@ import time
 import types
 import uuid
 from dataclasses import dataclass
-from queue import Empty
+from queue import Empty, Full
 from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple, Union
 
 from signal_slot.queue_utils import get_queue
@@ -221,7 +221,10 @@ class EventLoopObject:
         for q in queues:
             # we just push messages into each receiver event loop queue
             # event loops themselves will redistribute the signals to all receivers living on that loop
-            q.put_many(signals_to_emit, block=False)
+            try:
+                q.put_many(signals_to_emit, block=False)
+            except Full:
+                log.error("signal queue is Full")
 
     def detach(self):
         """Detach the object from it's current event loop."""
