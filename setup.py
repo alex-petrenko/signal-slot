@@ -13,7 +13,7 @@ setup(
     description="Fast and compact framework for communication between threads and processes in Python using event loops, signals and slots.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="1.0.1",
+    version="1.0.2",
     url="https://github.com/alex-petrenko/signal-slot",
     author="Aleksei Petrenko",
     license="MIT",
@@ -31,5 +31,5 @@ setup(
     package_dir={"": "./"},
     packages=setuptools.find_packages(where="./", include="signal_slot*"),
     include_package_data=True,
-    python_requires=">=3.7",
+    python_requires=">=3.8",
 )

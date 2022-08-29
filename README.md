@@ -8,6 +8,9 @@ Qt-like event loops, signals and slots for communication across threads and proc
 
 ### Recent releases
 
+##### v1.0.2
+* Catching queue.Full exception to handle situations where receiver event loop process is killed
+
 ##### v1.0.1
 * Added signal_slot.configure_logger() function to configure a custom logger
 
@@ -46,5 +49,3 @@ Documentation contributions are welcome.
 
 Originally designed for Sample Factory 2.0, a high-throughput asynchronous RL codebase https://github.com/alex-petrenko/sample-factory.
 Distributed under MIT License (see LICENSE), feel free to use for any purpose, commercial or not, at your own risk.
-
-See also https://github.com/Numergy/signalslot

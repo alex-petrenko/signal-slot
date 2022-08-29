@@ -11,7 +11,9 @@ from queue import Empty, Full
 from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple, Union
 
 from signal_slot.queue_utils import get_queue
+from signal_slot.utils import error_log_every_n
 
+logging.basicConfig(level=logging.NOTSET)
 log = logging.getLogger(__name__)
 
 
@@ -206,7 +208,6 @@ class EventLoopObject:
         #     raise RuntimeError(
         #         f'Cannot emit {signal_}: object {self.object_id} lives on a different process {pid}!'
         #     )
-
         # this is too verbose for most situations
         # if self.event_loop.verbose:
         #     log.debug(f"Emit {self.object_id}:{signal_=} {list_of_args=}")
@@ -214,8 +215,9 @@ class EventLoopObject:
         signals_to_emit = tuple((self.object_id, signal_, args) for args in list_of_args)
 
         # find a set of queues we need to send this signal to
+        receiver_ids = self.send_signals_to.get(signal_, ())
         queues = set()
-        for receiver_id in self.send_signals_to.get(signal_, ()):
+        for receiver_id in receiver_ids:
             queues.add(self.receiver_queues[receiver_id])
 
         for q in queues:
@@ -223,8 +225,9 @@ class EventLoopObject:
             # event loops themselves will redistribute the signals to all receivers living on that loop
             try:
                 q.put_many(signals_to_emit, block=False)
-            except Full:
-                log.error("signal queue is Full")
+            except Full as exc:
+                receivers = sorted([r_id for r_id in receiver_ids if self.receiver_queues[r_id] is q])
+                error_log_every_n(log, 100, f"{self.object_id}:{signal_=} queue is Full ({exc}). {receivers=}")
 
     def detach(self):
         """Detach the object from it's current event loop."""
