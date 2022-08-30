@@ -8,6 +8,9 @@ Qt-like event loops, signals and slots for communication across threads and proc
 
 ### Recent releases
 
+##### v1.0.3
+* Improved logging
+
 ##### v1.0.2
 * Catching queue.Full exception to handle situations where receiver event loop process is killed
 

@@ -13,7 +13,7 @@ setup(
     description="Fast and compact framework for communication between threads and processes in Python using event loops, signals and slots.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="1.0.2",
+    version="1.0.3",
     url="https://github.com/alex-petrenko/signal-slot",
     author="Aleksei Petrenko",
     license="MIT",

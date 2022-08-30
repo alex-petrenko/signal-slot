@@ -13,7 +13,7 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple, Un
 from signal_slot.queue_utils import get_queue
 from signal_slot.utils import error_log_every_n
 
-logging.basicConfig(level=logging.NOTSET)
+
 log = logging.getLogger(__name__)
 
 
@@ -202,7 +202,7 @@ class EventLoopObject:
         self.emit_many(signal_, (args,))
 
     def emit_many(self, signal_: str, list_of_args: Iterable[Tuple]):
-        # enable for for debugging
+        # enable for debugging
         # pid = process_pid(self.event_loop.process)
         # if os.getpid() != pid:
         #     raise RuntimeError(

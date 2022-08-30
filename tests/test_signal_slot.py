@@ -7,6 +7,9 @@ import pytest
 from signal_slot.signal_slot import EventLoop, EventLoopObject, EventLoopProcess, Timer, log, process_name, signal
 
 
+logging.basicConfig(level=logging.NOTSET)
+
+
 class C1(EventLoopObject):
     def __init__(self, event_loop, object_id):
         super().__init__(event_loop, object_id)
