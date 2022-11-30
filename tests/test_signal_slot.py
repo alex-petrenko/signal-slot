@@ -204,30 +204,32 @@ def test_queue_full():
         emitter.foo_signal.emit(i)
 
 
+now = datetime.datetime.now
+
+
+# classes derived from EventLoopObject define signals and slots (actually any method can be a slot)
+class A(EventLoopObject):
+    @signal
+    def signal_a(self):
+        ...
+
+    def on_signal_b(self, msg: str):
+        print(f"{now()} {self.object_id} received signal_b: {msg}")
+        time.sleep(1)
+        self.signal_a.emit("hello from A", 42)
+
+class B(EventLoopObject):
+    @signal
+    def signal_b(self):
+        ...
+
+    def on_signal_a(self, msg: str, other_data: int):
+        print(f"{now()} {self.object_id} received signal_a: {msg} {other_data}")
+        time.sleep(1)
+        self.signal_b.emit("hello from B")
+
+
 def test_usage_example():
-    now = datetime.datetime.now
-
-    # classes derived from EventLoopObject define signals and slots (actually any method can be a slot)
-    class A(EventLoopObject):
-        @signal
-        def signal_a(self):
-            ...
-
-        def on_signal_b(self, msg: str):
-            print(f"{now()} {self.object_id} received signal_b: {msg}")
-            time.sleep(1)
-            self.signal_a.emit("hello from A", 42)
-
-    class B(EventLoopObject):
-        @signal
-        def signal_b(self):
-            ...
-
-        def on_signal_a(self, msg: str, other_data: int):
-            print(f"{now()} {self.object_id} received signal_a: {msg} {other_data}")
-            time.sleep(1)
-            self.signal_b.emit("hello from B")
-
     # create main event loop and object of type A
     main_event_loop = EventLoop("main_loop")
     a = A(main_event_loop, "object: a")
