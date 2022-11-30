@@ -1,11 +1,11 @@
 import datetime
 import logging
 import multiprocessing
+import time
 
 import pytest
 
 from signal_slot.signal_slot import EventLoop, EventLoopObject, EventLoopProcess, Timer, log, process_name, signal
-
 
 logging.basicConfig(level=logging.NOTSET)
 
@@ -202,3 +202,63 @@ def test_queue_full():
         emitter.foo_signal.emit(lots_of_data)
     for i in range(5000):
         emitter.foo_signal.emit(i)
+
+
+def test_usage_example():
+    now = datetime.datetime.now
+
+    # classes derived from EventLoopObject define signals and slots (actually any method can be a slot)
+    class A(EventLoopObject):
+        @signal
+        def signal_a(self):
+            ...
+
+        def on_signal_b(self, msg: str):
+            print(f"{now()} {self.object_id} received signal_b: {msg}")
+            time.sleep(1)
+            self.signal_a.emit("hello from A", 42)
+
+    class B(EventLoopObject):
+        @signal
+        def signal_b(self):
+            ...
+
+        def on_signal_a(self, msg: str, other_data: int):
+            print(f"{now()} {self.object_id} received signal_a: {msg} {other_data}")
+            time.sleep(1)
+            self.signal_b.emit("hello from B")
+
+    # create main event loop and object of type A
+    main_event_loop = EventLoop("main_loop")
+    a = A(main_event_loop, "object: a")
+
+    # create a background process with a separate event loop and object b that lives on that event loop
+    bg_process = EventLoopProcess(unique_process_name="background_process")
+    b = B(bg_process.event_loop, "object: b")
+
+    # connect signals and slots
+    a.signal_a.connect(b.on_signal_a)
+    b.signal_b.connect(a.on_signal_b)
+
+    # emit signal from a to kick off the communication
+    a.signal_a.emit("Initial hello from A", 1337)
+
+    # create a timer that will stop our system after 10 seconds
+    stop_timer = Timer(main_event_loop, 10.0, single_shot=True)
+    stop_timer.start()
+
+    # connect the stop method of the event loop to the timeout signal of the timer
+    stop_timer.timeout.connect(main_event_loop.stop)
+    stop_timer.timeout.connect(bg_process.stop)  # stops the event loop of the background process
+
+    # start the background process
+    bg_process.start()
+
+    # start the main event loop
+    main_event_loop.exec()
+
+    # if we get here, the main event loop has stopped
+    # wait for the background process to finish
+    bg_process.join()
+
+    print(f"{now()} Done!")

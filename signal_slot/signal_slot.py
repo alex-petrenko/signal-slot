@@ -13,7 +13,6 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple, Un
 from signal_slot.queue_utils import get_queue
 from signal_slot.utils import error_log_every_n
 
-
 log = logging.getLogger(__name__)
 
 
