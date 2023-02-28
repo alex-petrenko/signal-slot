@@ -2,9 +2,11 @@ import datetime
 import logging
 import multiprocessing
 import time
+from queue import Empty
 
 import pytest
 
+from signal_slot.queue_utils import get_mp_queue
 from signal_slot.signal_slot import EventLoop, EventLoopObject, EventLoopProcess, Timer, log, process_name, signal
 
 logging.basicConfig(level=logging.NOTSET)
@@ -218,6 +220,7 @@ class A(EventLoopObject):
         time.sleep(1)
         self.signal_a.emit("hello from A", 42)
 
+
 class B(EventLoopObject):
     @signal
     def signal_b(self):
@@ -264,3 +267,20 @@ def test_usage_example():
     bg_process.join()
 
     print(f"{now()} Done!")
+
+
+def test_queue_get_many():
+    q = get_mp_queue()
+
+    q.put(1)
+    q.put(2)
+    q.put(3)
+
+    msgs = []
+    while True:
+        try:
+            msgs.extend(q.get_many_nowait())
+        except Empty:
+            break
+
+    assert msgs == [1, 2, 3]

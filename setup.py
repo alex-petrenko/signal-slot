@@ -23,7 +23,7 @@ setup(
         "Sample Factory": "https://github.com/alex-petrenko/sample-factory",
     },
     install_requires=[
-        "faster-fifo>=1.4.3,<2.0",
+        "faster-fifo>=1.4.4,<2.0",
     ],
     extras_require={
         "dev": ["black", "isort", "pytest<8.0", "flake8", "pre-commit", "twine"],
