@@ -16,8 +16,6 @@ def get_mp_queue(buffer_size_bytes=1_000_000):
     if os.name == "nt":
         MpQueue = MpQueueWrapper
     else:
-        # noinspection PyUnresolvedReferences
-        import faster_fifo_reduction
         from faster_fifo import Queue as MpQueue
 
     return MpQueue(max_size_bytes=buffer_size_bytes)

@@ -13,7 +13,7 @@ setup(
     description="Fast and compact framework for communication between threads and processes in Python using event loops, signals and slots.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="1.0.3",
+    version="1.0.4",
     url="https://github.com/alex-petrenko/signal-slot",
     author="Aleksei Petrenko",
     license="MIT",
@@ -23,7 +23,7 @@ setup(
         "Sample Factory": "https://github.com/alex-petrenko/sample-factory",
     },
     install_requires=[
-        "faster-fifo>=1.4.2,<2.0",
+        "faster-fifo>=1.4.3,<2.0",
     ],
     extras_require={
         "dev": ["black", "isort", "pytest<8.0", "flake8", "pre-commit", "twine"],
