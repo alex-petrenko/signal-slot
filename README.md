@@ -12,6 +12,8 @@ Qt-like event loops, signals and slots for communication across threads and proc
 pip install signal-slot-mp
 ```
 
+Linux, macOS, and Windows are supported.
+
 ### Overview
 
 `signal-slot` enables a parallel programming paradigm inspired by Qt's signals and slots, but in Python.
@@ -149,6 +151,12 @@ make test
 ```
 
 ### Recent releases
+
+##### v1.0.5
+* Windows support (do not require POSIX-only faster-fifo on Windows)
+
+##### v1.0.4
+* Use updated version of faster-fifo 
 
 ##### v1.0.3
 * Improved logging
