@@ -1,3 +1,5 @@
+import os
+
 import setuptools
 from setuptools import setup
 
@@ -7,13 +9,16 @@ with open("README.md", "r") as f:
     long_description = "\n".join(descr_lines)
 
 
+queue_deps = ["faster-fifo>=1.4.4,<2.0"] if os.name != "nt" else []
+
+
 setup(
     # Information
     name="signal-slot-mp",
     description="Fast and compact framework for communication between threads and processes in Python using event loops, signals and slots.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="1.0.4",
+    version="1.0.5",
     url="https://github.com/alex-petrenko/signal-slot",
     author="Aleksei Petrenko",
     license="MIT",
@@ -22,9 +27,7 @@ setup(
         "Github": "https://github.com/alex-petrenko/signal-slot",
         "Sample Factory": "https://github.com/alex-petrenko/sample-factory",
     },
-    install_requires=[
-        "faster-fifo>=1.4.4,<2.0",
-    ],
+    install_requires=queue_deps,
     extras_require={
         "dev": ["black", "isort", "pytest<8.0", "flake8", "pre-commit", "twine"],
     },
