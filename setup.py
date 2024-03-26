@@ -31,8 +31,8 @@ setup(
     extras_require={
         "dev": ["black", "isort", "pytest<8.0", "flake8", "pre-commit", "twine"],
     },
-    package_dir={"": "./"},
-    packages=setuptools.find_packages(where="./", include="signal_slot*"),
+    package_dir={"": "."},
+    packages=setuptools.find_packages(where=".", include="signal_slot*"),
     include_package_data=True,
     python_requires=">=3.8",
 )
